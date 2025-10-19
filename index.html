@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
+
+  <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+
+  <title>LIFe-GoM</title>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- mirror: F0%9F%AA%9E&lt -->
+
+  <link rel="stylesheet" type="text/css" href="./files/slick.css">
+  <link rel="stylesheet" type="text/css" href="./files/slick-theme.css">
+  <link rel="stylesheet" href="./files/bulma.min.css">
+  <link rel="stylesheet" href="./files/bulma-slider.min.css">
+  <link rel="stylesheet" href="./files/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./files/bootstrap.min.css">
+  <link rel="stylesheet" href="./files/font-awesome.min.css">
+  <link rel="stylesheet" href="./files/codemirror.min.css">
+  <link rel="stylesheet" href="./files/app.css">
+  <link rel="stylesheet" href="./files/index.css">
+  <link rel="stylesheet" href="./files/select.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="resources/glide.core.min.css">
+  <link rel="stylesheet" href="resources/glide.theme.min.css">
+  <link rel="stylesheet" href="resources/glide-custom.css">
+  <script src="resources/handlers.js"></script>
+  <script src="./files/jquery.min.js"></script>
+  <script src="./files/bootstrap.min.js"></script>
+  <script src="./files/codemirror.min.js"></script>
+  <script src="./files/clipboard.min.js"></script>
+  <script src="./files/video_comparison.js"></script>
+  <script src="./files/select.js"></script>
+  <script src="./files/bulma-slider.min.js"></script>
+  <script src="./files/bulma-carousel.min.js"></script>
+  <!-- <script src="./files/app.js"></script> -->
+  <script src="./files/index.js"></script>
+  <!-- <script src="./files/slick.js"></script> -->
+
+  <script src="resources/glide.min.js"></script>
+  <script>
+    window.onload = function () {
+      new Glide("#dynamic-carousel", {
+        type: "carousel",
+        perView: 1.68,
+        focusAt: "center",
+        autoplay: 20000,
+        hoverpause: true
+      }).mount();
+      new Glide("#static-carousel", {
+        type: "carousel",
+        perView: 1.68,
+        focusAt: "center",
+        autoplay: 3000,
+        hoverpause: true
+      }).mount();
+      new Glide("#realtime-carousel", {
+        type: "carousel",
+        perView: 2.05,
+        focusAt: "center",
+        autoplay: 3000,
+        hoverpause: true
+      }).mount();
+    };
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RZ6PES7EKD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-RZ6PES7EKD');
+  </script>
+</head>
+
+<body>
+  <div class="container" id="header" style="text-align: center; margin: auto;">
+    <div class="row" id="title-row" style="max-width: 100%; margin: 0 auto; display: inline-block">
+      <h2 class="col-md-12 text-center" id="title">
+        NoPo-Avatar: Generalizable and Animatable Avatars from Sparse Inputs without Human Poses
+      </h2>
+      <h3 class="col-md-12 text-center" id="title">
+        NeurIPS 2025
+      </h3>
+    </div>
+  </div>
+  <script>
+  </script>
+  <div class="container" id="main">
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1 text-center">
+        <ul class="list-inline">
+          <li> <a href="https://wenj.github.io/">Jing Wen</a> </li>
+          <li> <a href="https://www.alexander-schwing.de/">Alexander G. Schwing</a> </li>
+          <li> <a href="https://shenlong.web.illinois.edu/">Shenlong Wang</a> </li>
+        </ul>
+        <ul class="list-inline">
+          <li> University of Illinois at Urbana-Champaign </li>
+          <br />
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 text-center">
+        <span class="link-block">
+          <a href="https://arxiv.org/abs/2502.09617" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas"
+                data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                data-fa-i2svg="">
+                <path fill="currentColor"
+                  d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z">
+                </path>
+              </svg>
+            </span>
+            <span>Paper</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="https://github.com/wenj/NoPo-Avatar"
+            class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab"
+                data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg="">
+                <path fill="currentColor"
+                  d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z">
+                </path>
+              </svg>
+            </span>
+            <span>Code</span>
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2>
+          Motivation
+        </h2>
+        <div class="text-justify">
+           <b>(a) Sensitivity to input pose noises.</b> Previous methods (e.g, GHG [1], LIFe-GoM [2]) take camera poses and human poses as inputs and they are sensitive to quality of the human poses. We quantitatively measure the sensitivity by injecting Gaussian noise of different standard deviations or using a predicted pose. (Averaged over 5 runs for Gaussian noise; std are multiplied by 3 for better visualization.) <b>(b) Comparisons on rendering quality.</b> With the predicted inaccurate input poses, LIFe-GoM cannot produce high-fidelity rendering. We propose to eliminate the need of input poses. Our methods, which does not take any poses as inputs, produce high-quality rendering.
+        </div>
+        <br>
+        <center>
+          <img src="./medias/figures/teaser.png" class="img-responsive" alt="overview" width="100%"
+            style="max-height: 500px;margin:auto;">
+        </center>
+        <br>
+        <div class="text-justify">
+          [1] Kwon, Youngjoong, et al. "Generalizable human gaussians for sparse view synthesis." ECCV 2024. <br>
+          [2] Wen, Jing, et al. "LIFe-GoM: Generalizable Human Rendering with Learned Iterative Feedback Over Multi-Resolution Gaussians-on-Mesh." ICLR 2025.
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2>
+          Method
+        </h2>
+        <div class="text-justify">
+          The reconstruction module reconstructs the canonical T-pose representation solely from images. It follows the encoder-decoder structure and consists of two types of branches: a template branch and image branches. We show two views of the predictions of each branch: the splatter images in the 2D format and their visualizations in 3D. Gaussians predicted from all branches are combined and fed into the articulation and rendering.
+        </div>
+        <br>
+        <center>
+          <img src="./medias/figures/arch.png" class="img-responsive" alt="overview" width="100%"
+            style="max-height: 500px;margin:auto;">
+        </center>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2>
+          Novel view synthesis and qualitative comparisons
+        </h2>
+
+        <h3>
+          THuman2.0: 3 input views
+        </h3>
+        <div class="text-justify">
+          LIFe-GoM requires the poses of the input images during test-time reconstruction. We compare to LIFe-GoM in two settings: 1) w/ ground-truth poses: the input poses are the ground-truths provided by the dataset; and 2) w/ predicted poses: the input poses are estimated with MultiHMR. Our approach does not require any poses as input during test-time reconstruction. We achieve comparable rendering quality to LIFe-GoM w/ ground-truth poses, and significantly outperform LIFe-GoM w/ predicted poses.
+        </div>
+        <br>
+
+        <center>
+          <ul class="nav nav-pills nav-justified" id="freeview_thuman" style="width: 100%">
+            <li role="presentation" class="active"><a href="javascript: void(0);"
+                onclick="ChangeSceneFreeviewThuman(0);">0019</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewThuman(1);">0042</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewThuman(2);">0108</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewThuman(3);">0156</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewThuman(4);">0162</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewThuman(5);">0252</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewThuman(6);">0402</a>
+            </li>
+          </ul>
+          <br>
+
+          <div class="container" style="width: 100%">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_thuman_gt">
+                  <source src="./medias/comparison_thuman2.0/0019_gt.mp4" type="video/mp4"><br>
+                </video>
+                <h5>Ground truth</h5>
+              </div>
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_thuman_lifegom_gt">
+                  <source src="./medias/comparison_thuman2.0/0019_lifegom_gt.mp4" type="video/mp4"><br>
+                </video>
+                <h5>LIFe-GoM w/ ground-truth poses</h5>
+              </div>
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_thuman_lifegom_multihmr">
+                  <source src="./medias/comparison_thuman2.0/0019_lifegom_multihmr.mp4" type="video/mp4"><br>
+                </video>
+                <h5>LIFe-GoM w/ predicted poses</h5>
+              </div>
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_thuman_ours">
+                  <source src="./medias/comparison_thuman2.0/0019_ours.mp4" type="video/mp4"><br>
+                </video>
+                <h5>NoPo-Avatar (ours)</h5>
+              </div>
+            </div>
+          </div>
+        </center>
+
+        <h3>
+          HuGe100K: single input view
+        </h3>
+        <div class="text-justify">
+          We compare our approach to LHM-1B and IDOL on novel view synthesis (360 degree freeview rendering) from a single input image on HuGe100K. IDOL and ours are trained on HuGe100K. We directly use LHM's pretrained checkpoint without training it on HuGe100K, since the training codes of LHM are not available. All three methods do not take input poses in the reconstruction phase. We demonstrate that our method can render very loose clothes, such as long dresses.
+        </div>
+        <br>
+
+        <center>
+          <ul class="nav nav-pills nav-justified" id="freeview_huge100k" style="width: 100%">
+            <li role="presentation" class="active"><a href="javascript: void(0);"
+                onclick="ChangeSceneFreeviewHuge100k(0);">Example 1</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(1);">Example 2</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(2);">Example 3</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(3);">Example 4</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(4);">Example 5</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(5);">Example 6</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(6);">Example 7</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(7);">Example 8</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneFreeviewHuge100k(8);">Example 9</a>
+            </li>
+          </ul>
+          <br>
+
+          <div class="container" style="width: 100%">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_huge100k_gt">
+                  <source src="./medias/comparison_huge100k/deepfashion_images0_A_pose_MEN-Sweaters-id_00000702-07_7_additional_gt.mp4" type="video/mp4"><br>
+                </video>
+                <h5>Ground truth</h5>
+              </div>
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_huge100k_idol">
+                  <source src="./medias/comparison_huge100k/deepfashion_images0_A_pose_MEN-Sweaters-id_00000702-07_7_additional_idol.mp4" type="video/mp4"><br>
+                </video>
+                <h5>IDOL</h5>
+              </div>
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_huge100k_lhm">
+                  <source src="./medias/comparison_huge100k/deepfashion_images0_A_pose_MEN-Sweaters-id_00000702-07_7_additional_lhm.mp4" type="video/mp4"><br>
+                </video>
+                <h5>LHM-1B</h5>
+              </div>
+              <div class="col-lg-3 col-md-3 col-xs-6 col-sm-3 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="freeview_huge100k_ours">
+                  <source src="./medias/comparison_huge100k/deepfashion_images0_A_pose_MEN-Sweaters-id_00000702-07_7_additional_ours.mp4" type="video/mp4"><br>
+                </video>
+                <h5>NoPo-Avatar (ours)</h5>
+              </div>
+            </div>
+          </div>
+        </center>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2>
+          Novel pose synthesis
+        </h2>
+        <div class="text-justify">
+            Since the reconstructed human avatars are represented in the canonical T-pose, the avatars can be animated to novel poses with linear blend skinning and the predicted weights without any postprocessing. We show novel pose synthesis here.
+        </div>
+
+        <h3>
+          THuman2.0: 3 input views
+        </h3>
+        <center>
+          <ul class="nav nav-pills nav-justified" id="nps_thuman" style="width: 100%">
+            <li role="presentation" class="active"><a href="javascript: void(0);"
+                onclick="ChangeSceneNpsThuman(0);">Pose 1<br>0000</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(1);">Pose 1<br>0019</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(2);">Pose 1<br>0456</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(3);">Pose 2<br>0001</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(4);">Pose 2<br>0018</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(5);">Pose 2<br>0108</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(6);">Pose 3<br>0084</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(7);">Pose 3<br>0168</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsThuman(8);">Pose 3<br>0402</a>
+            </li>
+          </ul>
+          <br>
+
+          <div class="container" style="width: 100%;">
+            <div class="row" 
+                 style="display: flex; justify-content: center; align-items: flex-end; text-align: center;">
+              
+              <!-- Source images -->
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <img src="./medias/novelpose/thuman2.0_mimo2/0000.png" 
+                       class="img" width="100%" id="nps_thuman_ref" 
+                       style="max-height: 300px; object-fit: contain;">
+                  <h5 style="margin-top: 8px;">Source images</h5>
+                </div>
+              </div>
+
+              <!-- Reference poses -->
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <video width="100%" controls loop autoplay muted id="nps_thuman_pose" 
+                         style="max-height: 300px; object-fit: contain;">
+                    <source src="./medias/novelpose/thuman2.0_mimo2/mimo2_fps20.mp4" type="video/mp4">
+                  </video>
+                  <h5 style="margin-top: 8px;">Reference poses</h5>
+                </div>
+              </div>
+
+              <!-- NoPo-Avatar (ours) -->
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <video width="100%" controls loop autoplay muted id="nps_thuman_video" 
+                         style="max-height: 300px; object-fit: contain;">
+                    <source src="./medias/novelpose/thuman2.0_mimo2/0000_novel_pose.mp4" type="video/mp4">
+                  </video>
+                  <h5 style="margin-top: 8px;">NoPo-Avatar (ours)</h5>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </center>
+
+        <h3>
+          HuGe100K
+        </h3>
+        <center>
+          <ul class="nav nav-pills nav-justified" id="nps_huge100k" style="width: 100%">
+            <li role="presentation" class="active"><a href="javascript: void(0);"
+                onclick="ChangeSceneNpsHuge100k(0);">Pose 4<br>Example 1</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(1);">Pose 4<br>Example 2</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(2);">Pose 4<br>Example 3</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(3);">Pose 4<br>Example 4</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(4);">Pose 4<br>Example 5</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(5);">Pose 4<br>Example 6</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(6);">Pose 4<br>Example 7</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(7);">Pose 4<br>Example 8</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(8);">Pose 4<br>Example 9</a>
+            </li>
+            <br>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(9);">Pose 5<br>Example 1</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(10);">Pose 5<br>Example 2</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(11);">Pose 5<br>Example 3</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(12);">Pose 5<br>Example 4</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(13);">Pose 5<br>Example 5</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(14);">Pose 5<br>Example 6</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(15);">Pose 5<br>Example 7</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(16);">Pose 5<br>Example 8</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneNpsHuge100k(17);">Pose 5<br>Example 9</a>
+            </li>
+          </ul>
+          <br>
+
+          <div class="container" style="width: 100%;">
+            <div class="row" 
+                 style="display: flex; justify-content: center; align-items: flex-end; text-align: center;">
+              
+              <!-- Source images -->
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <img src="./medias/novelpose/huge100k_mimo1/flux_batch3_images7_China_female_stocky_thermal leggings_60~70 years old_503.png" 
+                       class="img" width="100%" id="nps_huge100k_ref" 
+                       style="max-height: 300px; object-fit: contain;">
+                  <h5 style="margin-top: 8px;">Source images</h5>
+                </div>
+              </div>
+
+              <!-- Reference poses -->
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <video width="100%" controls loop autoplay muted id="nps_huge100k_pose" 
+                         style="max-height: 300px; object-fit: contain;">
+                    <source src="./medias/novelpose/huge100k_mimo1/mimo1_fps20.mp4" type="video/mp4">
+                  </video>
+                  <h5 style="margin-top: 8px;">Reference poses</h5>
+                </div>
+              </div>
+
+              <!-- NoPo-Avatar (ours) -->
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" style="padding: 10px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <video width="100%" controls loop autoplay muted id="nps_huge100k_video" 
+                         style="max-height: 300px; object-fit: contain;">
+                    <source src="./medias/novelpose/huge100k_mimo1/flux_batch3_images7_China_female_stocky_thermal leggings_60~70 years old_503_novel_pose.mp4" type="video/mp4">
+                  </video>
+                  <h5 style="margin-top: 8px;">NoPo-Avatar (ours)</h5>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </center>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2>
+          Cross-domain generalization
+        </h2>
+        <div class="text-justify">
+            We show cross-domain generalization to other datasets. The model is trained on THuman2.1 + HuGe100K. The model is not trained on any of the datasets shown on this section.
+        </div>
+        <br>
+
+        <h3>
+          PeopleSnapshot
+        </h3>
+        <div class="text-justify">
+          We use the predicted poses from the first input image as the target pose. Since the input images depict different human poses, they are not strictly multiview. Although our model is not trained on inputs with varying poses, it still performs reasonably well.
+        </div>
+        <br>
+
+        <center>
+          <ul class="nav nav-pills nav-justified" id="crossdomain_peoplesnapshot" style="width: 100%">
+            <li role="presentation" class="active"><a href="javascript: void(0);"
+                onclick="ChangeSceneCrossDomainPeoplesnapshot(0);">f3c</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneCrossDomainPeoplesnapshot(1);">f4c</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneCrossDomainPeoplesnapshot(2);">m3c</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneCrossDomainPeoplesnapshot(3);">m4c</a>
+            </li>
+          </ul>
+          <br>
+
+          <div class="container" style="width: 100%">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 pull-left" style="text-align: center;">
+                <div><img src="./medias/crossdomain/f3c.png" class="img" width="100%" id="crossdomain_peoplesnapshot_ref"></div>
+                <h5>Source images</h5>
+              </div>
+              <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="crossdomain_peoplesnapshot_video">
+                  <source src="./medias/crossdomain/f3c_freeview.mp4" type="video/mp4"><br>
+                </video>
+                <h5>Ground truth</h5>
+              </div>
+            </div>
+          </div>
+        </center>
+
+        <h3>
+          UBCFashion
+        </h3>
+        <div class="text-justify">
+          We use the predicted poses from the first input image as the target pose. Since the input images depict different human poses, they are not strictly multiview. Although our model is not trained on inputs with varying poses, it still performs reasonably well.
+        </div>
+        <br>
+
+        <center>
+          <ul class="nav nav-pills nav-justified" id="crossdomain_ubc" style="width: 100%">
+            <li role="presentation" class="active"><a href="javascript: void(0);"
+                onclick="ChangeSceneCrossDomainPeoplesnapshot(0);">91+xeI+ijRS</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneCrossDomainUbc(1);">917v6EQuPJS</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneCrossDomainUbc(2);">91c+SL7Cg7S</a>
+            </li>
+            <li role="presentation"><a href="javascript: void(0);" onclick="ChangeSceneCrossDomainUbc(3);">91WvLcNpdzS</a>
+            </li>
+          </ul>
+          <br>
+
+          <div class="container" style="width: 100%">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 pull-left" style="text-align: center;">
+                <div><img src="./medias/crossdomain/91+xeI+ijRS.png" class="img" width="100%" id="crossdomain_ubc_ref"></div>
+                <h5>Source images</h5>
+              </div>
+              <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 pull-left" style="text-align: center;">
+                <video widthcontrols loop autoplay muted id="crossdomain_ubc_video">
+                  <source src="./medias/crossdomain/91+xeI+ijRS_freeview.mp4" type="video/mp4"><br>
+                </video>
+                <h5>Ground truth</h5>
+              </div>
+            </div>
+          </div>
+        </center>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h3>
+          Citation
+        </h3>
+        If you find our project useful, please consider citing:
+        <br>
+
+        <div class="CodeMirror cm-s-default CodeMirror-wrap">
+          <div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 38.28px; left: 647px;">
+            <textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none;" tabindex="0"></textarea>
+          </div>
+          <div class="CodeMirror-vscrollbar" cm-not-content="true">
+            <div style="min-width: 1px; height: 0px;"></div>
+          </div>
+          <div class="CodeMirror-hscrollbar" cm-not-content="true">
+            <div style="height: 100%; min-height: 1px; width: 0px;"></div>
+          </div>
+          <div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div>
+          <div class="CodeMirror-gutter-filler" cm-not-content="true"></div>
+          <div class="CodeMirror-scroll" tabindex="-1">
+            <div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: -15px; border-right-width: 15px; min-height: 111px; padding-right: 0px; padding-bottom: 0px;">
+              <div style="position: relative; top: 0px;">
+                <div class="CodeMirror-lines">
+                  <div style="position: relative; outline: none;">
+                    <div class="CodeMirror-measure">AخA</div>
+                    <div class="CodeMirror-measure"></div>
+                    <div style="position: relative; z-index: 1;"></div>
+                    <div class="CodeMirror-cursors">
+                      <div class="CodeMirror-cursor" style="left: 647px; top: 34.28px; height: 17.1406px;">&nbsp;</div>
+                    </div>
+                    <div class="CodeMirror-code" style="">
+                      <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;">@inproceedings{wen2025nopoavatar,</span></pre>
+                      <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  title={{NoPo-Avatar: Generalizable and Animatable Avatars from Sparse Inputs without Human Poses}},</span></pre>
+                      <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  author={Jing Wen and Alex Schwing and Shenlong Wang},</span></pre>
+                      <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  booktitle={NeurIPS},</span></pre>
+                      <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;"> &nbsp;  year={2025}</span></pre>
+                      <pre class=" CodeMirror-line "><span style="padding-right: 0.1px;">}</span></pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="position: absolute; height: 15px; width: 1px; top: 111px;"></div>
+            <div class="CodeMirror-gutters" style="display: none; height: 126px;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h3>
+          Acknowledgements
+        </h3>
+
+        The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a> and <A
+          href="https://climatenerf.github.io/">ClimateNeRF</a>.
+
+      </div>
+    </div>
+  </div>
+</body>
+f
+
+</html>
