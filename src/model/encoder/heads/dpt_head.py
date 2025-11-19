@@ -1,0 +1,202 @@
+# Copyright (C) 2024-present Naver Corporation. All rights reserved.
+# Licensed under CC BY-NC-SA 4.0 (non-commercial use only).
+#
+# --------------------------------------------------------
+# dpt head implementation for DUST3R
+# Downstream heads assume inputs of size B x N x C (where N is the number of tokens) ;
+# or if it takes as input the output at every layer, the attribute return_all_layers should be set to True
+# the forward function also takes as input a dictionnary img_info with key "height" and "width"
+# for PixelwiseTask, the output will be of dimension B x num_channels x H x W
+# --------------------------------------------------------
+from einops import rearrange
+from typing import List, Union, Tuple, Iterable, Optional
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+# import dust3r.utils.path_to_croco
+from .dpt_block import DPTOutputAdapter, Interpolate
+from .postprocess import postprocess
+
+
+class MiddleBlock(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, activation=False):
+        super().__init__()
+        self.conv = nn.Conv2d(in_channels, out_channels, kernel_size, stride=stride, padding=kernel_size // 2)
+        self.norm = nn.BatchNorm2d(out_channels)
+        self.A = nn.SELU()
+        self.activation = activation
+
+    def forward(self, x):
+
+        if self.activation:
+            return self.A(self.norm(self.conv(x)))
+        else:
+            return self.norm(self.conv(x))
+
+
+class DPTOutputAdapter_fix(DPTOutputAdapter):
+    """
+    Adapt croco's DPTOutputAdapter implementation for dust3r:
+    remove duplicated weigths, and fix forward for dust3r
+    """
+
+    def __init__(self,
+                 img_nchan: int = 3,
+                 num_channels: int = 1,
+                 stride_level: int = 1,
+                 patch_size: Union[int, Tuple[int, int]] = 16,
+                 main_tasks: Iterable[str] = ('rgb',),
+                 hooks: List[int] = [2, 5, 8, 11],
+                 layer_dims: List[int] = [96, 192, 384, 768],
+                 feature_dim: int = 256,
+                 last_dim: int = 32,
+                 use_bn: bool = False,
+                 dim_tokens_enc: Optional[int] = None,
+                 head_type: str = 'regression',
+                 output_width_ratio=1,
+                 skip: bool = False,
+                 **kwargs):
+        super().__init__(
+            num_channels=num_channels,
+            stride_level=stride_level,
+            patch_size=patch_size,
+            main_tasks=main_tasks,
+            hooks=hooks,
+            layer_dims=layer_dims,
+            feature_dim=feature_dim,
+            last_dim=last_dim,
+            use_bn=use_bn,
+            dim_tokens_enc=dim_tokens_enc,
+            head_type=head_type,
+            output_width_ratio=output_width_ratio,
+            **kwargs
+        )
+        self.skip = skip
+        if skip:
+            skip_dim = 256
+            self.skip_proj_scale = 1e-4
+            self.skip_proj = nn.Sequential(
+                MiddleBlock(img_nchan, skip_dim, activation=True),
+                MiddleBlock(skip_dim, skip_dim, kernel_size=5, activation=True),
+                MiddleBlock(skip_dim, skip_dim, kernel_size=5, activation=True),
+                MiddleBlock(skip_dim, feature_dim, activation=False),
+            )
+            # zero init the last skip proj
+            for m in self.skip_proj[-1].modules():
+                if isinstance(m, nn.Conv2d):
+                    nn.init.zeros_(m.weight)
+                    nn.init.zeros_(m.bias)
+
+            self.feat_down = Interpolate(scale_factor=0.5, mode="bilinear", align_corners=True)
+
+        if len(self.hooks) < 4:
+            self.scratch.layer_rn = self.scratch.layer_rn[-len(self.hooks):]
+
+    def init(self, dim_tokens_enc=768):
+        super().init(dim_tokens_enc)
+        # these are duplicated weights
+        del self.act_1_postprocess
+        del self.act_2_postprocess
+        del self.act_3_postprocess
+        del self.act_4_postprocess
+
+        if len(self.hooks) < 4:
+            self.act_postprocess = self.act_postprocess[-len(self.hooks):]
+
+    def forward(self, encoder_tokens: List[torch.Tensor], image_size=None, ray_embedding=None):
+        assert self.dim_tokens_enc is not None, 'Need to call init(dim_tokens_enc) function first'
+        encoder_tokens, images = encoder_tokens[:-1], encoder_tokens[-1]
+        # H, W = input_info['image_size']
+        image_size = self.image_size if image_size is None else image_size
+        H, W = image_size
+        # Number of patches in height and width
+        N_H = H // (self.stride_level * self.P_H)
+        N_W = W // (self.stride_level * self.P_W)
+
+        # Hook decoder onto 4 layers from specified ViT layers
+        layers = [encoder_tokens[hook] for hook in self.hooks]
+
+        # Extract only task-relevant tokens and ignore global tokens.
+        layers = [self.adapt_tokens(l) for l in layers]
+
+        # Reshape tokens to spatial representation
+        layers = [rearrange(l, 'b (nh nw) c -> b c nh nw', nh=N_H, nw=N_W).contiguous() for l in layers]
+
+        layers = [self.act_postprocess[idx](l) for idx, l in enumerate(layers)]
+        # Project layers to chosen feature dim
+        layers = [self.scratch.layer_rn[idx](l) for idx, l in enumerate(layers)]
+
+        # Fuse layers using refinement stages
+        path_4 = self.scratch.refinenet4(layers[-1])[:, :, :layers[-2].shape[2], :layers[-2].shape[3]]
+        path_3 = self.scratch.refinenet3(path_4, layers[-2])
+        path_2 = self.scratch.refinenet2(path_3, layers[-3])
+        if len(self.hooks) < 4:
+            # Fuse layers using refinement stages
+            path_1 = self.scratch.refinenet1(path_2)
+        else:
+            path_1 = self.scratch.refinenet1(path_2, layers[0])
+
+        # if ray_embedding is not None:
+        #     ray_embedding = F.interpolate(ray_embedding, size=(path_1.shape[2], path_1.shape[3]), mode='bilinear')
+        #     path_1 = torch.cat([path_1, ray_embedding], dim=1)
+
+        if self.skip:
+            path_1 += self.feat_down(self.skip_proj(images)) * self.skip_proj_scale
+
+        # Output head
+        out = self.head(path_1)
+
+        return out, [path_4, path_3, path_2, path_1, out]
+
+
+class PixelwiseTaskWithDPT(nn.Module):
+    """ DPT module for dust3r, can return 3D points + confidence for all pixels"""
+
+    def __init__(self, *, n_cls_token=0, hooks_idx=None, dim_tokens=None,
+                 output_width_ratio=1, num_channels=1, postprocess=None, depth_mode=None, conf_mode=None, **kwargs):
+        super(PixelwiseTaskWithDPT, self).__init__()
+        self.return_all_layers = True  # backbone needs to return all layers
+        self.postprocess = postprocess
+        self.depth_mode = depth_mode
+        self.conf_mode = conf_mode
+
+        assert n_cls_token == 0, "Not implemented"
+        dpt_args = dict(output_width_ratio=output_width_ratio,
+                        num_channels=num_channels,
+                        **kwargs)
+        if hooks_idx is not None:
+            dpt_args.update(hooks=hooks_idx)
+        self.dpt = DPTOutputAdapter_fix(**dpt_args)
+        dpt_init_args = {} if dim_tokens is None else {'dim_tokens_enc': dim_tokens}
+        self.dpt.init(**dpt_init_args)
+
+    def forward(self, x, img_info, ray_embedding=None):
+        out, feats = self.dpt(x, image_size=(img_info[0], img_info[1]), ray_embedding=ray_embedding)
+        if self.postprocess:
+            out = self.postprocess(out, self.depth_mode, self.conf_mode)
+        return out, feats
+
+
+def create_dpt_head(net, has_conf=False, out_nchan=3, postprocess_func=postprocess, img_nchan=3, skip=False,
+                    n_hooks=4):
+    """
+    return PixelwiseTaskWithDPT for given net params
+    """
+    assert net.dec_depth > 9
+    l2 = net.dec_depth
+    feature_dim = 256
+    last_dim = feature_dim//2
+    ed = net.enc_embed_dim
+    dd = net.dec_embed_dim
+    return PixelwiseTaskWithDPT(num_channels=out_nchan + has_conf,
+                                feature_dim=feature_dim,
+                                last_dim=last_dim,
+                                hooks_idx=[0, l2*2//4, l2*3//4, l2][-n_hooks:],
+                                dim_tokens=[ed, dd, dd, dd],
+                                postprocess=postprocess_func,
+                                depth_mode=net.depth_mode,
+                                conf_mode=net.conf_mode,
+                                head_type='regression',
+                                img_nchan=img_nchan,
+                                skip=skip,
+                                )

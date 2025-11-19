@@ -1,0 +1,4 @@
+name: uniform
+
+num_target_views: 1
+num_context_views: 2

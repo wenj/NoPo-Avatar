@@ -1,0 +1,3 @@
+chamfer:
+  weight: 0.1
+  single_directional: true

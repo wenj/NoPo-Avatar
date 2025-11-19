@@ -1,0 +1,36 @@
+--index-url https://download.pytorch.org/whl/cu124
+
+torch==2.4.0
+torchvision==0.19.0
+
+--index-url https://pypi.org/simple
+
+wheel
+tqdm
+lightning
+black
+ruff
+hydra-core
+jaxtyping==0.2.36
+beartype==0.19.0
+wandb
+einops
+colorama
+scikit-image
+colorspacious
+matplotlib
+moviepy==1.0.3
+imageio
+git+https://github.com/rmurai0610/diff-gaussian-rasterization-w-pose.git
+timm
+dacite
+lpips
+e3nn
+plyfile
+tabulate
+svg.py
+scikit-video
+opencv-python
+smplx
+git+https://github.com/facebookresearch/pytorch3d.git
+seaborn
