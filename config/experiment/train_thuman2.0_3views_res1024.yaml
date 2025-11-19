@@ -1,0 +1,73 @@
+# @package _global_
+
+defaults:
+  - /dataset@_group_.thuman: thuman
+  - override /model/encoder: template_uv_concat_bone
+  - override /model/encoder/backbone: croco_multi2
+  - override /model/decoder: lbs_splatting_cuda
+  - override /loss: [mse, lpips, chamfer, projection, lbs_weights]
+
+wandb:
+  name: tpose_res1024
+  tags: [thuman2.1, 1024x1024]
+
+model:
+  encoder:
+    pose_free: true
+    intrinsics_embed_loc: encoder
+    intrinsics_embed_type: token
+    pretrained_weights: 'outputs/exp_tpose/2025-04-20_21-07-06/checkpoints/epoch_176-step_300000.ckpt'
+
+    apply_mask: "soft"
+    direct_rgbs: false
+
+    backbone:
+      template_encoder_free: true
+      template_image_size: [1024, 1024]
+      intrinsics_embed_loc: "none"
+      disable_checkpointing: true
+
+  decoder:
+    make_scale_invariant: false
+    render_no_canonical: false
+    render_no_rgb: false
+    render_context: true
+    warp_by_shape: true
+
+loss:
+  chamfer:
+    single_directional: false
+
+  lbs_weights:
+    weight: 0.01
+
+dataset:
+  thuman:
+    roots: [datasets/thuman2.0]
+    augment: true
+    template_image_shape: [1024, 1024]
+    input_image_shape: [1024, 1024]
+    load_template_uv: true
+    load_lbs_weights: true
+    background_color: [-1, -1, -1]
+
+    view_sampler:
+      num_context_views: 3
+      warm_up_steps: 150_000
+
+optimizer:
+  lr: 1e-4
+  warm_up_steps: 2000
+  backbone_lr_multiplier: 0.1
+
+data_loader:
+  train:
+    batch_size: 1
+    num_workers: 8
+
+trainer:
+  max_steps: 300_001
+  val_check_interval: 1000
+
+checkpointing:
+  every_n_train_steps: 10000

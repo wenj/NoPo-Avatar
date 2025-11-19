@@ -1,0 +1,12 @@
+name: croco_multi2
+
+model: ViTLarge_BaseDecoder
+patch_embed_cls: PatchEmbedDust3R
+asymmetry_decoder: true
+
+intrinsics_embed_loc: 'encoder'
+intrinsics_embed_degree: 4
+intrinsics_embed_type: 'token'
+template_encoder_free: false
+template_image_size: [256, 256]
+template_embed_dim: 1024

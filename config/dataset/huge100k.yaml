@@ -1,0 +1,37 @@
+defaults:
+  - base_dataset
+  - view_sampler: uniform
+  - optional view_sampler_dataset_specific_config@view_sampler: bounded_re10k
+
+name: huge100k
+roots: [
+  datasets/huge100k/deepfashion,
+  datasets/huge100k/flux_batch1,
+  datasets/huge100k/flux_batch2,
+  datasets/huge100k/flux_batch3,
+  datasets/huge100k/flux_batch4,
+  datasets/huge100k/flux_batch5,
+  datasets/huge100k/flux_batch6,
+  datasets/huge100k/flux_batch7,
+  datasets/huge100k/flux_batch8,
+  datasets/huge100k/flux_batch9,
+]
+
+relative_pose: false
+make_baseline_1: false
+
+#input_image_shape: [256, 256]
+#original_image_shape: [360, 640]
+template_image_shape: [256, 256]
+input_image_shape: [256, 256]
+original_image_shape: [896, 640]
+cameras_are_circular: true
+
+baseline_min: 1e-3
+baseline_max: 1e10
+max_fov: 100.0
+
+load_lbs_weights: false
+load_supervision: false
+
+front_facing: false

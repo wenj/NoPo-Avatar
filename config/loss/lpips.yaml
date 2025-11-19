@@ -1,0 +1,5 @@
+lpips:
+  weight_template: 0.05
+  weight_rgb: 0.05
+  weight: 0.05
+  apply_after_step: 0

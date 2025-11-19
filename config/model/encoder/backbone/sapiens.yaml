@@ -1,0 +1,14 @@
+name: sapiens
+
+model: sapiens_0.3b
+croco_model: ViTLarge_BaseDecoder
+pretrained_checkpoint: pretrained_weights/sapiens_0.3b_epoch_1600_clean.pth
+asymmetry_decoder: true
+
+encoder_residual: false
+
+img_size: [256, 256]
+
+intrinsics_embed_loc: 'encoder'
+intrinsics_embed_degree: 4
+intrinsics_embed_type: 'token'

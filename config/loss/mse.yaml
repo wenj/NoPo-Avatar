@@ -1,0 +1,4 @@
+mse:
+  weight: 1.0
+  use_conf: false
+  alpha: 1.0

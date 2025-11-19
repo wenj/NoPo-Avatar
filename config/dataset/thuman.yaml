@@ -1,0 +1,28 @@
+defaults:
+  - base_dataset
+  - view_sampler: uniform
+  - optional view_sampler_dataset_specific_config@view_sampler: bounded_re10k
+
+name: thuman
+roots: [datasets/thuman2.0]
+
+relative_pose: false
+make_baseline_1: false
+
+#input_image_shape: [256, 256]
+#original_image_shape: [360, 640]
+template_image_shape: [256, 256]
+input_image_shape: [256, 256]
+original_image_shape: [1024, 1024]
+cameras_are_circular: true
+
+baseline_min: 1e-3
+baseline_max: 1e10
+max_fov: 100.0
+
+load_lbs_weights: false
+load_supervision: false
+
+load_da_pose: false
+
+noise_scale: 0.0

@@ -1,0 +1,4 @@
+ssim:
+  weight_template: 1.0
+  weight_rgb: 1.0
+  weight: 1.0

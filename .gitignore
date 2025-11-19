@@ -1,0 +1,8 @@
+*.pyc
+__pycache__/
+outputs
+outputs/
+tmp
+tmp/
+pretrained_weights
+pretrained_weights/
