@@ -2,7 +2,7 @@
 
 NeurIPS 2025
 
-[Paper]() | [Project Page](https://wenj.github.io/NoPo-Avatar/)
+[Paper](https://arxiv.org/abs/2511.16673) | [Project Page](https://wenj.github.io/NoPo-Avatar/)
 
 ```bibtex
 @inproceedings{wen2025nopoavatar,
